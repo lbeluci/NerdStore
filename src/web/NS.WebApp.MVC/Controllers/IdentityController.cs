@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NS.WebApp.MVC.Controllers
 {
-    public class IdentityController : Controller
+    public class IdentityController : MainController
     {
         private readonly IWebAppAuthenticationService _webAppAuthenticationService;
 
@@ -38,21 +38,14 @@ namespace NS.WebApp.MVC.Controllers
 
             var response = await _webAppAuthenticationService.SignIn(registrationUser);
 
+            if (HasErrors(response.ResponseResult))
+            {
+                return View(registrationUser);
+            }
+
             await DoLogin(response);
 
-            //if (false)
-            //{
-            //    return View(registrationUser);
-            //}
-
-            //Login
-
-            //if (false)
-            //{
-            //    return View(registrationUser);
-            //}
-
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -73,21 +66,23 @@ namespace NS.WebApp.MVC.Controllers
 
             var response = await _webAppAuthenticationService.Login(loginUser);
 
+            if (HasErrors(response.ResponseResult))
+            {
+                return View(loginUser);
+            }
+
             await DoLogin(response);
 
-            //if (false)
-            //{
-            //    return View(loginUser);
-            //}
-
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task DoLogin(LoginUserResponse response)

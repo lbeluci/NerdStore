@@ -8,6 +8,6 @@
 
         public UserToken UserToken { get; set; }
 
-        //public ResponseResult ResponseResult { get; set; }
+        public ResponseResult ResponseResult { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NS.WebApp.MVC.Services
 {
-    public class WebAppAuthenticationService : IWebAppAuthenticationService
+    public class WebAppAuthenticationService : Service, IWebAppAuthenticationService
     {
         private readonly HttpClient _httpClient;
 
@@ -34,6 +34,11 @@ namespace NS.WebApp.MVC.Services
             var content = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            if (!HandleErrorsResponse(response))
+            {
+                return new LoginUserResponse { ResponseResult = JsonSerializer.Deserialize<ResponseResult>(content, options) };
+            }
 
             return JsonSerializer.Deserialize<LoginUserResponse>(content, options);
         }

@@ -1,11 +1,11 @@
-using System;
-
 namespace NS.WebApp.MVC.Models
 {
     public class ErrorViewModel
     {
-        public string RequestId { get; set; }
+        public int ErrorCode { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public string Title { get; set; }
+
+        public string Message { get; set; }
     }
 }

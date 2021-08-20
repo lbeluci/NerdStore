@@ -52,6 +52,7 @@ namespace NS.WebApp.MVC.Controllers
         [Route("login")]
         public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -59,6 +60,8 @@ namespace NS.WebApp.MVC.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginUser loginUser, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (!ModelState.IsValid)
             {
                 return View(loginUser);
@@ -73,7 +76,7 @@ namespace NS.WebApp.MVC.Controllers
 
             await DoLogin(response);
 
-            return RedirectToAction("Index", "Home");
+            return LocalRedirect(returnUrl); //RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

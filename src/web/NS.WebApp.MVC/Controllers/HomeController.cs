@@ -11,13 +11,6 @@ namespace NS.WebApp.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -28,10 +21,31 @@ namespace NS.WebApp.MVC.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("error/{id:length(3,3)}")]
+        public IActionResult Error(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var error = new ErrorViewModel
+            {
+                ErrorCode = id
+            };
+
+            switch (id)
+            {
+                case 403:
+                    error.Message = "Access denied! Do you have permission to do this?";
+                    error.Title = "Access denied!";
+                    break;
+                case 404:
+                    error.Message = "Page not found!";
+                    error.Title = "Page not found!";
+                    break;
+                default:
+                    error.Message = "Something went wrong! Try again later or tell us about the problem.";
+                    error.Title = "Something went wrong!";
+                    break;
+            }
+
+            return View(error);
         }
     }
 }

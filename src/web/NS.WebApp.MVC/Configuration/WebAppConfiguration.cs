@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NS.WebApp.MVC.Extensions;
@@ -8,8 +9,10 @@ namespace NS.WebApp.MVC.Configuration
 {
     public static class WebAppConfiguration
     {
-        public static void AddWebAppConfiguration(this IServiceCollection services)
+        public static void AddWebAppConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<AppSettings>(configuration);
+
             services.AddIdentityConfiguration();
 
             services.AddControllersWithViews();

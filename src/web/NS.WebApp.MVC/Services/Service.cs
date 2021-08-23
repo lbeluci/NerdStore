@@ -1,5 +1,8 @@
 ﻿using NS.WebApp.MVC.Extensions;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace NS.WebApp.MVC.Services
 {
@@ -20,6 +23,16 @@ namespace NS.WebApp.MVC.Services
 
             response.EnsureSuccessStatusCode();
             return true;
+        }
+
+        protected StringContent GetContentString<T>(T content)
+        {
+            return new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
+        }
+
+        protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage httpResponseMessage)
+        {
+            return JsonSerializer.Deserialize<T>(await httpResponseMessage.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

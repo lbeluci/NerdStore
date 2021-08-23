@@ -76,7 +76,14 @@ namespace NS.WebApp.MVC.Controllers
 
             await DoLogin(response);
 
-            return LocalRedirect(returnUrl); //RedirectToAction("Index", "Home");
+            //RedirectToAction("Index", "Home");
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return LocalRedirect(returnUrl);
         }
 
         [HttpGet]

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NS.ProductCatalog.API.Models
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductsRepository : IRepository<Product>
     {
         Task<IEnumerable<Product>> GetAll();
 

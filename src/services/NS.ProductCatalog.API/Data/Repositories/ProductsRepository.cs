@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace NS.ProductCatalog.API.Data.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductsRepository : IProductsRepository
     {
         private readonly ProductCatalogContext _context;
 
-        public ProductRepository(ProductCatalogContext context)
+        public ProductsRepository(ProductCatalogContext context)
         {
             _context = context;
         }

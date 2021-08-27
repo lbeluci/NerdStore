@@ -26,6 +26,31 @@ namespace NS.ProductCatalog.API.Configurations
                         Url = new Uri("https://opensource.org/licenses/MIT")
                     }
                 });
+
+                setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Insert the JWT token this way: Bearer {your token}",
+                    Name = "Authorization",
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
 
             return services;

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NS.ProductCatalog.API.Data;
+using NS.WebApi.Core.Identities;
 
 namespace NS.ProductCatalog.API.Configurations
 {
@@ -33,6 +34,8 @@ namespace NS.ProductCatalog.API.Configurations
             app.UseRouting();
 
             app.UseCors("All");
+
+            app.UseAuthConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

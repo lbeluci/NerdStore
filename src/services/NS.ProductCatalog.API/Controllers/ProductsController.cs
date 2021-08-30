@@ -10,6 +10,7 @@ namespace NS.ProductCatalog.API.Controllers
 {
     [ApiController]
     [Authorize]
+    [Route("api/products")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductsRepository _productsRepository;
@@ -20,14 +21,14 @@ namespace NS.ProductCatalog.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("products")]
+        [HttpGet()]
         public async Task<IEnumerable<Product>> Index()
         {
             return await _productsRepository.GetAll();
         }
 
         [ClaimsAuthorize("ProductCatalog", "Read")]
-        [HttpGet("products/{id:Guid}")]
+        [HttpGet("{id:Guid}")]
         public async Task<Product> ProductDetails(Guid id)
         {
             return await _productsRepository.GetById(id);

@@ -10,6 +10,7 @@ namespace NS.WebApp.MVC.Configuration
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
             services.AddHttpClient<IWebAppAuthenticationService, WebAppAuthenticationService>();
+            services.AddHttpClient<IProductsService, ProductsService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

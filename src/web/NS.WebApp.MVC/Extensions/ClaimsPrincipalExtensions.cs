@@ -34,7 +34,7 @@ namespace NS.WebApp.MVC.Extensions
                 throw new ArgumentNullException(nameof(principal));
             }
 
-            var claim = principal.FindFirst("token");
+            var claim = principal.FindFirst("JWT");
             return claim?.Value;
         }
     }

@@ -7,9 +7,9 @@ namespace NS.WebApp.MVC.Controllers
 {
     public class ProductsController : MainController
     {
-        private readonly IProductsService _productsService;
+        private readonly IProductsServiceRefit _productsService;
 
-        public ProductsController(IProductsService productsService)
+        public ProductsController(IProductsServiceRefit productsService)
         {
             _productsService = productsService;
         }

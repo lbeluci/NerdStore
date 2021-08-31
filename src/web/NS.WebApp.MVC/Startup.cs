@@ -31,7 +31,7 @@ namespace NS.WebApp.MVC
         {
             services.AddWebAppConfiguration(Configuration);
 
-            services.ResolveDependencies();
+            services.ResolveDependencies(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

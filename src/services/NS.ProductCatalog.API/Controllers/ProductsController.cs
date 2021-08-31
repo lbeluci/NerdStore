@@ -31,8 +31,9 @@ namespace NS.ProductCatalog.API.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<Product> ProductDetails(Guid id)
         {
-            //REFIT ApiException TEST
-            //throw new Exception("REFIT TEST ERROR");
+            //Refit ApiException test
+            //Polly retry test
+            //throw new Exception("TEST ERROR");
 
             return await _productsRepository.GetById(id);
         }

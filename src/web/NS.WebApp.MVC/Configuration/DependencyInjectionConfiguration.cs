@@ -4,8 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NS.WebApp.MVC.Extensions;
 using NS.WebApp.MVC.Services;
 using NS.WebApp.MVC.Services.Handlers;
-using Refit;
-using System;
 
 namespace NS.WebApp.MVC.Configuration
 {
@@ -17,18 +15,20 @@ namespace NS.WebApp.MVC.Configuration
 
             services.AddHttpClient<IWebAppAuthenticationService, WebAppAuthenticationService>();
 
-            //services.AddHttpClient<IProductsService, ProductsService>().AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
-
-            /*REFIT CONFIGURATION TEST*/
-            services.AddHttpClient("Refit", options => { options.BaseAddress = new Uri(configuration.GetSection("UrlProducts").Value); })
+            services.AddHttpClient<IProductsService, ProductsService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddTypedClient(RestService.For<IProductsServiceRefit>);
+                //.AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
+                .AddPolicyHandler(PollyPolicies.GetAsyncRetryPolicy());
+
+            //services.AddHttpClient("Refit", options => { options.BaseAddress = new Uri(configuration.GetSection("UrlProducts").Value); })
+            //    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+            //    .AddTypedClient(RestService.For<IProductsServiceRefit>);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IUser, AspNetUser>();
 
             return services;
-        }
+        }        
     }
 }

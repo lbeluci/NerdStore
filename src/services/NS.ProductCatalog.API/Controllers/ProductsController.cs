@@ -33,6 +33,7 @@ namespace NS.ProductCatalog.API.Controllers
         {
             //Refit ApiException test
             //Polly retry test
+            //Polly Circuit Breaker test
             //throw new Exception("TEST ERROR");
 
             return await _productsRepository.GetById(id);

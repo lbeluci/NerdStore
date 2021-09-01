@@ -18,17 +18,20 @@ namespace NS.WebApp.MVC.Configuration
             services.AddHttpClient<IProductsService, ProductsService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 //.AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
-                .AddPolicyHandler(PollyPolicies.GetAsyncRetryPolicy());
+                .AddPolicyHandler(PollyPolicies.GetAsyncRetryPolicy())
+                .AddTransientHttpErrorPolicy(PollyPolicies.GetCircuitBreakerAsync());
 
+            #region Refit
             //services.AddHttpClient("Refit", options => { options.BaseAddress = new Uri(configuration.GetSection("UrlProducts").Value); })
             //    .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
             //    .AddTypedClient(RestService.For<IProductsServiceRefit>);
+            #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IUser, AspNetUser>();
 
             return services;
-        }        
+        }
     }
 }

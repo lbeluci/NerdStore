@@ -47,5 +47,18 @@ namespace NS.WebApp.MVC.Controllers
 
             return View(error);
         }
+
+        [Route("system-temporarily-unavailable")]
+        public IActionResult SystemTemporarilyUnavailable()
+        {
+            var error = new ErrorViewModel
+            {
+                Message = "We are sorry, our system is temporarily unavailable. Please try again later.",
+                Title = "System Temporarily Unavailable",
+                ErrorCode = 500
+            };
+
+            return View("Error", error);
+        }
     }
 }

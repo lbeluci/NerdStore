@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Polly.CircuitBreaker;
 using Refit;
 using System.Net;
 using System.Threading.Tasks;
@@ -32,6 +33,10 @@ namespace NS.WebApp.MVC.Extensions
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
+            catch (BrokenCircuitException)
+            {
+                HandleCircuitBreakerExceptionAsync(httpContext);
+            }
         }
 
         private void HandleRequestExceptionAsync(HttpContext httpContext, HttpStatusCode httpStatusCode)
@@ -43,6 +48,11 @@ namespace NS.WebApp.MVC.Extensions
             }
 
             httpContext.Response.StatusCode = (int)httpStatusCode;
+        }
+
+        private void HandleCircuitBreakerExceptionAsync(HttpContext httpContext)
+        {
+            httpContext.Response.Redirect("/system-temporarily-unavailable");
         }
     }
 }

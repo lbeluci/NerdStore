@@ -7,9 +7,9 @@ namespace NS.Customer.API.Models
     {
         public string Name { get; private set; }
 
-        public string Email { get; private set; }
+        public Email Email { get; private set; }
 
-        public string Cpf { get; private set; }
+        public Cpf Cpf { get; private set; }
 
         public bool Deleted { get; private set; }
 
@@ -24,14 +24,14 @@ namespace NS.Customer.API.Models
         {
             Id = id;
             Name = name;
-            Email = email;
-            Cpf = cpf;
+            Email = new Email(email);
+            Cpf = new Cpf(cpf);
             Deleted = false;
         }
 
         public void ChangeEmail(string email)
         {
-            Email = email;
+            Email = new Email(email);
         }
 
         public void SetAddress(Address address)

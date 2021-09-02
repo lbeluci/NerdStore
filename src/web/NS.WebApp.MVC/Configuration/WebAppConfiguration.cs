@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using NS.WebApp.MVC.Extensions;
+using System.Globalization;
 
 namespace NS.WebApp.MVC.Configuration
 {
@@ -42,6 +43,8 @@ namespace NS.WebApp.MVC.Configuration
 
             app.UseIdentityConfiguration();
 
+            app.UseRequestLocalization(GetLocalizationOptions());
+
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
@@ -50,6 +53,22 @@ namespace NS.WebApp.MVC.Configuration
                     name: "default",
                     pattern: "{controller=Products}/{action=Index}/{id?}");
             });
+        }
+
+        private static RequestLocalizationOptions GetLocalizationOptions()
+        {
+            //var culture = "pt-BR";
+
+            var culture = "en-US";
+
+            var supportedCultures = new[] { new CultureInfo(culture) };
+
+            return new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(culture),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
         }
     }
 }

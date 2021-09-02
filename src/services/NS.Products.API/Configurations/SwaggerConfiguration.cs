@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
 
-namespace NS.ProductCatalog.API.Configurations
+namespace NS.Products.API.Configurations
 {
     public static class SwaggerConfiguration
     {

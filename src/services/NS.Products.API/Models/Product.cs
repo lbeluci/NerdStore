@@ -1,7 +1,7 @@
 ﻿using NS.Core.DomainObjects;
 using System;
 
-namespace NS.ProductCatalog.API.Models
+namespace NS.Products.API.Models
 {
     public class Product : Entity, IAggregateRoot
     {

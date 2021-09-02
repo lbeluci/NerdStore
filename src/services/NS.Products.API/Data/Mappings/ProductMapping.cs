@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NS.ProductCatalog.API.Models;
+using NS.Products.API.Models;
 
-namespace NS.ProductCatalog.API.Data.Mappings
+namespace NS.Products.API.Data.Mappings
 {
     public class ProductMapping : IEntityTypeConfiguration<Product>
     {

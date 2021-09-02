@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NS.ProductCatalog.API.Data;
+using NS.Products.API.Data;
 using NS.WebApi.Core.Identities;
 
-namespace NS.ProductCatalog.API.Configurations
+namespace NS.Products.API.Configurations
 {
     public static class ApiConfiguration
     {
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ProductCatalogContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ProductsContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
 

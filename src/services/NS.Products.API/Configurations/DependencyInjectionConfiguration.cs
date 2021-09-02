@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NS.ProductCatalog.API.Data;
-using NS.ProductCatalog.API.Data.Repositories;
-using NS.ProductCatalog.API.Models;
+using NS.Products.API.Data;
+using NS.Products.API.Data.Repositories;
+using NS.Products.API.Models;
 
-namespace NS.ProductCatalog.API.Configurations
+namespace NS.Products.API.Configurations
 {
     public static class DependencyInjectionConfiguration
     {
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IProductsRepository, ProductsRepository>();
-            services.AddScoped<ProductCatalogContext>();
+            services.AddScoped<ProductsContext>();
         }
     }
 }

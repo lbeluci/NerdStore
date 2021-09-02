@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NS.Core.Data;
-using NS.ProductCatalog.API.Models;
+using NS.Products.API.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NS.ProductCatalog.API.Data
+namespace NS.Products.API.Data
 {
-    public class ProductCatalogContext : DbContext, IUnitOfWork
+    public class ProductsContext : DbContext, IUnitOfWork
     {
-        public ProductCatalogContext(DbContextOptions<ProductCatalogContext> options) : base(options)
+        public ProductsContext(DbContextOptions<ProductsContext> options) : base(options)
         {
         }
 
@@ -21,7 +21,7 @@ namespace NS.ProductCatalog.API.Data
                 property.SetColumnType("varchar(100)");
             }
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductCatalogContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductsContext).Assembly);
         }
 
         public async Task<bool> Commit()

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NS.ProductCatalog.API
+namespace NS.Products.API
 {
     public class Program
     {

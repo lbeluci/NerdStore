@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NS.ProductCatalog.API.Models
+namespace NS.Products.API.Models
 {
     public interface IProductsRepository : IRepository<Product>
     {

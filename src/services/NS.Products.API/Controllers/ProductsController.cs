@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NS.ProductCatalog.API.Models;
+using NS.Products.API.Models;
 using NS.WebApi.Core.Identities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NS.ProductCatalog.API.Controllers
+namespace NS.Products.API.Controllers
 {
     [ApiController]
     [Authorize]

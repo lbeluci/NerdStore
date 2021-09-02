@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NS.ProductCatalog.API.Data;
+using NS.Products.API.Data;
 
-namespace NS.ProductCatalog.API.Migrations
+namespace NS.Products.API.Migrations
 {
-    [DbContext(typeof(ProductCatalogContext))]
-    [Migration("20210826101834_Initial")]
-    partial class Initial
+    [DbContext(typeof(ProductsContext))]
+    partial class ProductsContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +19,7 @@ namespace NS.ProductCatalog.API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("NS.ProductCatalog.API.Models.Product", b =>
+            modelBuilder.Entity("NS.Products.API.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

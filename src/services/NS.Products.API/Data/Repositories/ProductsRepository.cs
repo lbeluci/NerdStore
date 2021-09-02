@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NS.Core.Data;
-using NS.ProductCatalog.API.Models;
+using NS.Products.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NS.ProductCatalog.API.Data.Repositories
+namespace NS.Products.API.Data.Repositories
 {
     public class ProductsRepository : IProductsRepository
     {
-        private readonly ProductCatalogContext _context;
+        private readonly ProductsContext _context;
 
-        public ProductsRepository(ProductCatalogContext context)
+        public ProductsRepository(ProductsContext context)
         {
             _context = context;
         }

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NS.ProductCatalog.API.Configurations;
+using NS.Products.API.Configurations;
 using NS.WebApi.Core.Identities;
 
-namespace NS.ProductCatalog.API
+namespace NS.Products.API
 {
     public class Startup
     {

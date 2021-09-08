@@ -23,7 +23,9 @@ namespace NS.Customers.API.Data.Mappings
                 ot.Property(c => c.Address).IsRequired().HasColumnName("Email").HasColumnType($"varchar({Email.MaxLength})");
             });
 
+            builder.HasOne(c => c.Address).WithOne(a => a.Customer);
 
+            builder.ToTable("Customers");
         }
     }
 }

@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NS.Core.Mediator;
 using NS.Customers.API.Application.Commands;
 using NS.Customers.API.Data;
-//using NS.Customers.API.Data.Repositories;
-//using NS.Customers.API.Models;
+using NS.Customers.API.Data.Repositories;
+using NS.Customers.API.Models;
 
 namespace NS.Customers.API.Configurations
 {
@@ -13,8 +13,8 @@ namespace NS.Customers.API.Configurations
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            //services.AddScoped<IProductsRepository, ProductsRepository>();
-            //services.AddScoped<CustomersContext>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<CustomersContext>();
 
             services.AddScoped<IMediatorHandler, MediatorHandler>();
 

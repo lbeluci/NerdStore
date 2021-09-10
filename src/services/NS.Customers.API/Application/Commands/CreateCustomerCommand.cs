@@ -22,10 +22,10 @@ namespace NS.Customers.API.Application.Commands
             Cpf = cpf;
         }
 
-        //public override bool IsValid()
-        //{
-        //    ValidationResult = new CreateCustomerValidation().Validate(this);
-        //    return ValidationResult.IsValid;
-        //}
+        public override bool IsValid()
+        {
+            ValidationResult = new CreateCustomerValidation().Validate(this);
+            return ValidationResult.IsValid;
+        }
     }
 }

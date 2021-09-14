@@ -1,10 +1,40 @@
-﻿using System;
+﻿using NS.Core.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace NS.Core.DomainObjects
 {
     public abstract class Entity
     {
+        private readonly List<Event> _events;
+
+        public IReadOnlyCollection<Event> Events => _events.AsReadOnly();
+
         public Guid Id { get; set; }
+
+        protected Entity()
+        {
+            _events = new List<Event>();
+
+            Id = Guid.NewGuid();
+        }
+
+        public void AddEvent(Event value)
+        {
+            _events.Add(value);
+        }
+
+        public void RemoveEvent(Event value)
+        {
+            _events.Remove(value);
+        }
+
+        public void ClearEvents()
+        {
+            _events.Clear();
+        }
+
+        #region EntityBase
 
         public override bool Equals(object obj)
         {
@@ -52,5 +82,7 @@ namespace NS.Core.DomainObjects
         {
             return $"{GetType().Name} [Id={Id}]";
         }
+
+        #endregion
     }
 }

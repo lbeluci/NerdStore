@@ -1,9 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NS.WebApp.MVC.Extensions;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NS.WebApp.MVC.Models
 {
     public class RegistrationUser
     {
+        [Required]
+        [DisplayName("Full Name")]
+        public string Name { get; set; }
+
+        [Required]
+        [DisplayName("CPF")]
+        [Cpf]
+        public string Cpf { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

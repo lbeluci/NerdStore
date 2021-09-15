@@ -15,7 +15,7 @@ namespace NS.Customers.API.Data.Repositories
             _context = context;
         }
 
-        public IUnitOfWork UnitOfWork { get; set; }
+        public IUnitOfWork UnitOfWork => _context;
 
         public async Task<IEnumerable<Customer>> GetAll()
         {

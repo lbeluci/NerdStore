@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NS.Identities.API.Controllers
+namespace NS.WebApi.Core.Controllers
 {
     [ApiController]
     public abstract class MainController : ControllerBase
@@ -25,6 +26,16 @@ namespace NS.Identities.API.Controllers
             var errors = modelState.Values.SelectMany(e => e.Errors);
 
             foreach (var error in errors)
+            {
+                AddError(error.ErrorMessage);
+            }
+
+            return CustomResponse();
+        }
+
+        protected ActionResult CustomResponse(ValidationResult validationResult)
+        {
+            foreach (var error in validationResult.Errors)
             {
                 AddError(error.ErrorMessage);
             }

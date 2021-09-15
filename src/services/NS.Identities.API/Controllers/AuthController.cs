@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NS.Identities.API.Models;
+using NS.WebApi.Core.Controllers;
 using NS.WebApi.Core.Identities;
 using System;
 using System.Collections.Generic;

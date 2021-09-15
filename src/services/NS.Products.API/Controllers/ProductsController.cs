@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NS.Products.API.Models;
+using NS.WebApi.Core.Controllers;
 using NS.WebApi.Core.Identities;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace NS.Products.API.Controllers
 {
-    [ApiController]
     [Authorize]
     [Route("api/products")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : MainController
     {
         private readonly IProductsRepository _productsRepository;
 

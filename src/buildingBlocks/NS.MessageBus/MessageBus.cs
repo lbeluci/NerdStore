@@ -21,6 +21,8 @@ namespace NS.MessageBus
 
         public bool IsConnected => _bus?.Advanced.IsConnected ?? false;
 
+        public IAdvancedBus AdvancedBus => _bus?.Advanced;
+
         public void Publish<T>(T message) where T : IntegrationEvent
         {
             TryConnect();
@@ -88,7 +90,20 @@ namespace NS.MessageBus
                 .Or<BrokerUnreachableException>()
                 .WaitAndRetry(3, retry => TimeSpan.FromSeconds(Math.Pow(2, retry)));
 
-            policy.Execute(() => { _bus = RabbitHutch.CreateBus(_connectionString); });
+            policy.Execute(() => 
+            { 
+                _bus = RabbitHutch.CreateBus(_connectionString);
+                _bus.Advanced.Disconnected += OnDisconnect;
+            });
+        }
+
+        private void OnDisconnect(object o, EventArgs e)
+        {
+            var policy = Policy.Handle<EasyNetQException>()
+                .Or<BrokerUnreachableException>()
+                .RetryForever();
+
+            policy.Execute(TryConnect);
         }
 
         public void Dispose()

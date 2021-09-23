@@ -5,6 +5,7 @@ using NS.Core.Mediator;
 using NS.Core.Messages.Integration;
 using NS.Customers.API.Application.Commands;
 using NS.MessageBus;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,9 +24,21 @@ namespace NS.Customers.API.Services
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _bus.RespondAsync<CreatedUserIntegrationEvent, ResponseMessage>(async request => await CreateCustomer(request));
+            SetResponder();
 
             return Task.CompletedTask;
+        }
+
+        private void OnConnected(object o, EventArgs e)
+        {
+            SetResponder();
+        }
+
+        private void SetResponder()
+        {
+            _bus.RespondAsync<CreatedUserIntegrationEvent, ResponseMessage>(async request => await CreateCustomer(request));
+
+            _bus.AdvancedBus.Connected += OnConnected;
         }
 
         private async Task<ResponseMessage> CreateCustomer(CreatedUserIntegrationEvent integrationEvent)

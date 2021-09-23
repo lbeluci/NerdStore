@@ -1,11 +1,10 @@
-﻿using EasyNetQ;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NS.Core.Mediator;
 using NS.Core.Messages.Integration;
 using NS.Customers.API.Application.Commands;
-using System;
+using NS.MessageBus;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,24 +13,22 @@ namespace NS.Customers.API.Services
     public class CreatedUserIntegrationHandler : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IMessageBus _bus;
 
-        private IBus _bus;
-
-        public CreatedUserIntegrationHandler(IServiceScopeFactory serviceScopeFactory)
+        public CreatedUserIntegrationHandler(IServiceScopeFactory serviceScopeFactory, IMessageBus bus)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _bus = bus;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _bus = RabbitHutch.CreateBus("host=localhost:5672");
-
-            _bus.Rpc.RespondAsync<CreatedUserIntegrationEvent, ResponseMessage>(async request => new ResponseMessage(await CreateCustomer(request)));
+            _bus.RespondAsync<CreatedUserIntegrationEvent, ResponseMessage>(async request => await CreateCustomer(request));
 
             return Task.CompletedTask;
         }
 
-        private async Task<ValidationResult> CreateCustomer(CreatedUserIntegrationEvent integrationEvent)
+        private async Task<ResponseMessage> CreateCustomer(CreatedUserIntegrationEvent integrationEvent)
         {
             var createCustomerCommand = new CreateCustomerCommand(integrationEvent.Id, integrationEvent.Name, integrationEvent.Email, integrationEvent.Cpf);
 
@@ -41,7 +38,7 @@ namespace NS.Customers.API.Services
 
             var success = await mediator.SendCommand(createCustomerCommand);
 
-            return success;
+            return new ResponseMessage(success);
         }
     }
 }

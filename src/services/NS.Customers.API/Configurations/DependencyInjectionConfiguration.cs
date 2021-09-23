@@ -7,7 +7,6 @@ using NS.Customers.API.Application.Events;
 using NS.Customers.API.Data;
 using NS.Customers.API.Data.Repositories;
 using NS.Customers.API.Models;
-using NS.Customers.API.Services;
 
 namespace NS.Customers.API.Configurations
 {
@@ -22,9 +21,7 @@ namespace NS.Customers.API.Configurations
 
             services.AddScoped<IRequestHandler<CreateCustomerCommand, ValidationResult>, CustomerCommandHandler>();
 
-            services.AddScoped<INotificationHandler<CreatedCustomerEvent>, CustomerEventHandler>();
-
-            services.AddHostedService<CreatedUserIntegrationHandler>();
+            services.AddScoped<INotificationHandler<CreatedCustomerEvent>, CustomerEventHandler>();            
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using EasyNetQ;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NS.Core.Messages.Integration;
 using NS.Identities.API.Models;
+using NS.MessageBus;
 using NS.WebApi.Core.Controllers;
 using NS.WebApi.Core.Identities;
 using System;
@@ -23,14 +23,14 @@ namespace NS.Identities.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly IMessageBus _bus;
 
-        private IBus _bus;
-
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings)
+        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings, IMessageBus bus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _bus = bus;
         }
 
         [HttpPost("register")]
@@ -54,25 +54,19 @@ namespace NS.Identities.API.Controllers
             {
                 var registerCustomerResult = await RegisterCustomer(registrationUser);
 
+                if (!registerCustomerResult.ValidationResult.IsValid)
+                {
+                    await _userManager.DeleteAsync(user);
+
+                    return CustomResponse(registerCustomerResult.ValidationResult);
+                }
+
                 return CustomResponse(await GetLoginResponseAsync(user.Email));
             }
 
             result.Errors.ToList().ForEach((e) => AddError(e.Description));
 
             return CustomResponse();
-        }
-
-        private async Task<ResponseMessage> RegisterCustomer(RegistrationUser registrationUser)
-        {
-            var user = await _userManager.FindByEmailAsync(registrationUser.Email);
-
-            var createdUserIntegrationEvent = new CreatedUserIntegrationEvent(Guid.Parse(user.Id), registrationUser.Name, registrationUser.Email, registrationUser.Cpf);
-
-            _bus = RabbitHutch.CreateBus("host=localhost:5672");
-
-            var success = await _bus.Rpc.RequestAsync<CreatedUserIntegrationEvent, ResponseMessage>(createdUserIntegrationEvent);
-
-            return success;
         }
 
         [HttpPost("login")]
@@ -168,6 +162,23 @@ namespace NS.Identities.API.Controllers
         private static long ToUnixEpochDate(DateTime date)
         {
             return (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+        }
+
+        private async Task<ResponseMessage> RegisterCustomer(RegistrationUser registrationUser)
+        {
+            var user = await _userManager.FindByEmailAsync(registrationUser.Email);
+
+            var createdUserIntegrationEvent = new CreatedUserIntegrationEvent(Guid.Parse(user.Id), registrationUser.Name, registrationUser.Email, registrationUser.Cpf);
+
+            try
+            {
+                return await _bus.RequestAsync<CreatedUserIntegrationEvent, ResponseMessage>(createdUserIntegrationEvent);
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
         }
     }
 }
